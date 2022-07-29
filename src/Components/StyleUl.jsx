@@ -4,5 +4,6 @@ const StyledUl = styled.ul`
   flex-wrap: wrap;
   justify-content: center;
   align-items: center;
+  gap: 20px;
 `;
 export default StyledUl;

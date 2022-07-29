@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { nanoid } from "nanoid";
-import "./de.css";
+import "./pageStyle.css";
 
 import { saveToLocalStorage, loadFromLocalStorage } from "../LocalStorage";
 import StyledInput from "../Components/StyledInput";
@@ -16,7 +16,7 @@ export default function Todo() {
   });
 
   return (
-    <div className="DeWrap">
+    <div className="Wrap">
       <h2 className="title">Einkaufsliste</h2>
       <StyledUl>
         {items.map((item) => {

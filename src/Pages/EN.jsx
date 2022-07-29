@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { nanoid } from "nanoid";
+import "./pageStyle.css";
+
 import { saveToLocalStorage, loadFromLocalStorage } from "../LocalStorage";
 import StyledInput from "../Components/StyledInput";
 import StyledLi from "../Components/StyledLi";
@@ -14,7 +16,7 @@ export default function English() {
   });
 
   return (
-    <div className="EnWrap">
+    <div className="Wrap">
       <h2 className="title">Shopping List</h2>
       <StyledUl>
         {items.map((item) => {
@@ -30,7 +32,7 @@ export default function English() {
           );
         })}
       </StyledUl>
-      <h3 className="SecondaryTitle">What do you want to buy?</h3>
+      <h3 className="title">What do you want to buy?</h3>
 
       <form
         className="form"

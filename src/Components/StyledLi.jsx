@@ -6,7 +6,6 @@ const StyledLi = styled.li`
   color: #44475a;
   width: fit-content;
   list-style: none;
-  margin: 5px;
   &:hover {
     background-color: #ff5555;
     color: #f8f8f2;
