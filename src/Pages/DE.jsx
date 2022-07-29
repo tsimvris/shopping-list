@@ -15,17 +15,16 @@ export default function Deutsch() {
   useEffect(() => {
     saveToLocalStorage("My Items", items);
   });
-  const getApiData = async () => {
+  async function getApi() {
     const response = await fetch(
       "https://fetch-me.vercel.app/api/shopping/items"
     )
       .then((response) => response.json())
       .then((response) => setGroceries(response.data));
+  }
 
-    // update the state
-  };
   useEffect(() => {
-    getApiData();
+    getApi();
   }, []);
   return (
     <div className="Wrap">
@@ -74,13 +73,7 @@ export default function Deutsch() {
       <StyledUl>
         {groceries &&
           groceries.map((item) => (
-            <StyledLi
-              key={item._id}
-              onClick={setItems([
-                ...items,
-                { name: item.name.de, id: item._id },
-              ])}
-            >
+            <StyledLi key={item._id} onClick={console.log(item.name.de)}>
               {item.name.de}
             </StyledLi>
           ))}
