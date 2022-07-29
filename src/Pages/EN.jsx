@@ -5,12 +5,20 @@ import { saveToLocalStorage, loadFromLocalStorage } from "../LocalStorage";
 import StyledInput from "../Components/StyledInput";
 import StyledLi from "../Components/StyledLi";
 import StyledUl from "../Components/StyleUl";
+import { search } from "fast-fuzzy";
 
 export default function English() {
   const [inputValue, setInputValue] = useState("");
   const [items, setItems] = useState(loadFromLocalStorage("My Items") ?? []);
   const [groceries, setGroceries] = useState();
-
+  let fuzzyResult = [];
+  function fuzzy(inputValue) {
+    fuzzyResult = search(inputValue, groceries, {
+      keySelector: (obj) => obj.name.en,
+    });
+    console.log(fuzzyResult);
+    return fuzzyResult;
+  }
   useEffect(() => {
     saveToLocalStorage("My Items", items);
   });
@@ -65,6 +73,7 @@ export default function English() {
           value={inputValue}
           onChange={(event) => {
             setInputValue(event.target.value);
+            fuzzy(inputValue);
           }}
         />
       </form>
