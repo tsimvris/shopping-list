@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { nanoid } from "nanoid";
 import "./pageStyle.css";
-
 import { saveToLocalStorage, loadFromLocalStorage } from "../LocalStorage";
 import StyledInput from "../Components/StyledInput";
 import StyledLi from "../Components/StyledLi";
@@ -11,6 +10,7 @@ export default function Deutsch() {
   const [inputValue, setInputValue] = useState("");
   const [items, setItems] = useState(loadFromLocalStorage("My Items") ?? []);
   const [groceries, setGroceries] = useState();
+  //const { search } = require("fast-fuzzy");
 
   useEffect(() => {
     saveToLocalStorage("My Items", items);
@@ -30,14 +30,7 @@ export default function Deutsch() {
   return (
     <div className="Wrap">
       <h2 className="title">Einkaufsliste</h2>
-      <ul>
-        {groceries &&
-          groceries.map((item) => (
-            <li className="item-container">
-              {item.name.de}with Id:{item._id}
-            </li>
-          ))}
-      </ul>
+
       <StyledUl>
         {items.map((item) => {
           return (
@@ -69,9 +62,29 @@ export default function Deutsch() {
           value={inputValue}
           onChange={(event) => {
             setInputValue(event.target.value);
+
+            /* search({ inputValue }, [{ groceries }], {
+              keySelector: (groceries) => groceries.name.de,
+            });*/
           }}
         />
+        <div für Search></div>
       </form>
+      <h3 className="title">Zuletzt Verwendet</h3>
+      <StyledUl>
+        {groceries &&
+          groceries.map((item) => (
+            <StyledLi
+              key={item._id}
+              onClick={setItems([
+                ...items,
+                { name: item.name.de, id: item._id },
+              ])}
+            >
+              {item.name.de}
+            </StyledLi>
+          ))}
+      </StyledUl>
     </div>
   );
 }

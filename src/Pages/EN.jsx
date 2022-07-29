@@ -10,11 +10,23 @@ import StyledUl from "../Components/StyleUl";
 export default function English() {
   const [inputValue, setInputValue] = useState("");
   const [items, setItems] = useState(loadFromLocalStorage("My Items") ?? []);
+  const [groceries, setGroceries] = useState();
 
   useEffect(() => {
     saveToLocalStorage("My Items", items);
   });
+  const getApiData = async () => {
+    const response = await fetch(
+      "https://fetch-me.vercel.app/api/shopping/items"
+    )
+      .then((response) => response.json())
+      .then((response) => setGroceries(response.data));
 
+    // update the state
+  };
+  useEffect(() => {
+    getApiData();
+  }, []);
   return (
     <div className="Wrap">
       <h2 className="title">Shopping List</h2>
@@ -52,6 +64,15 @@ export default function English() {
           }}
         />
       </form>
+      <h3 className="title">Recently used</h3>
+      <StyledUl>
+        {groceries &&
+          groceries.map((item) => (
+            <StyledLi key={item._id} className="item-container">
+              {item.name.en}
+            </StyledLi>
+          ))}
+      </StyledUl>
     </div>
   );
 }

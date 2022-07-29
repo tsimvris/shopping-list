@@ -5,5 +5,6 @@ const StyledUl = styled.ul`
   justify-content: center;
   align-items: center;
   gap: 20px;
+  max-width: 80%;
 `;
 export default StyledUl;
