@@ -25,9 +25,11 @@ export default function English() {
       console.error(error.message);
     }
   }
+
   useEffect(() => {
     getApi();
   }, []);
+
   return (
     <div className="Wrap">
       <h2 className="title">Shopping List</h2>
@@ -38,7 +40,6 @@ export default function English() {
             <StyledLi
               onClick={() => {
                 setItems(items.filter((Item) => Item.id !== item.id));
-                console.log(groceries);
               }}
               key={item.id}
             >
@@ -67,12 +68,28 @@ export default function English() {
           }}
         />
       </form>
+      <div className="fuzzyRes">
+        <h4 className="title">Proposals</h4>
+        <StyledUl>
+          <StyledLi></StyledLi>
+        </StyledUl>
+      </div>
       <div>
         <h3 className="title">Recently used</h3>
         <hr />
         <StyledUl>
           {groceries?.map((grocery) => {
-            return <StyledLi key={grocery._id}>{grocery.name.en}</StyledLi>;
+            return (
+              <StyledLi
+                key={grocery._id}
+                onClick={() => {
+                  console.log("alive");
+                  setItems([...items, { name: grocery.name.en, id: nanoid() }]);
+                }}
+              >
+                {grocery.name.en}
+              </StyledLi>
+            );
           })}
         </StyledUl>
       </div>

@@ -37,7 +37,6 @@ export default function Deutsch() {
             <StyledLi
               onClick={() => {
                 setItems(items.filter((Item) => Item.id !== item.id));
-                console.log(groceries);
               }}
               key={item.id}
             >
@@ -66,25 +65,22 @@ export default function Deutsch() {
           }}
         />
       </form>
-      <div>
-        <h3 className="title">Zuletzt Verwendet</h3>
-        <hr />
-        <StyledUl>
-          {groceries?.map((grocery) => {
-            return (
-              <StyledLi
-                key={grocery._id}
-                onClick={() => {
-                  console.log("alive");
-                  setItems([...items, { name: grocery.name.de, id: nanoid() }]);
-                }}
-              >
-                {grocery.name.de}
-              </StyledLi>
-            );
-          })}
-        </StyledUl>
-      </div>
+      <h3 className="title">Zuletzt Verwendet</h3>
+      <StyledUl>
+        {groceries?.map((grocery) => {
+          return (
+            <StyledLi
+              key={grocery._id}
+              onClick={() => {
+                console.log("alive");
+                setItems([...items, { name: grocery.name.de, id: nanoid() }]);
+              }}
+            >
+              {grocery.name.de}
+            </StyledLi>
+          );
+        })}
+      </StyledUl>
     </div>
   );
 }
