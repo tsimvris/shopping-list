@@ -1,5 +1,10 @@
 .App {
   text-align: center;
-  margin: 10px;
+  margin: 0;
   background-color: #44475a;
+}
+.NavBar {
+  position: absolute;
+  top: 15px;
+  right: 5px;
 }

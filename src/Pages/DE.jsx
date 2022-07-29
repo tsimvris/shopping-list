@@ -1,7 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { nanoid } from "nanoid";
+import "./de.css";
+
 import { saveToLocalStorage, loadFromLocalStorage } from "../LocalStorage";
 import StyledInput from "../Components/StyledInput";
+import StyledLi from "../Components/StyledLi";
+import StyledUl from "../Components/StyleUl";
 
 export default function Todo() {
   const [inputValue, setInputValue] = useState("");
@@ -14,24 +18,23 @@ export default function Todo() {
   return (
     <div className="DeWrap">
       <h2 className="title">Einkaufsliste</h2>
-      <ul className="ItemsUl">
+      <StyledUl>
         {items.map((item) => {
           return (
             <>
-              <li
+              <StyledLi
                 onClick={() => {
                   setItems(items.filter((Item) => Item.id !== item.id));
                 }}
-                className="ItemsLi"
                 key={item.id}
               >
                 {item.name}
-              </li>
+              </StyledLi>
             </>
           );
         })}
-      </ul>
-      <h3 className="SecondaryTitle">Was willst du einkaufen?</h3>
+      </StyledUl>
+      <h3 className="title">Was willst du einkaufen?</h3>
 
       <form
         className="form"
@@ -43,7 +46,8 @@ export default function Todo() {
       >
         <StyledInput
           required
-          type="text"
+          type="search"
+          placeholder="Tippe um zu suchen..."
           value={inputValue}
           onChange={(event) => {
             setInputValue(event.target.value);

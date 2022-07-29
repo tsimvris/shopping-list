@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import { nanoid } from "nanoid";
 import { saveToLocalStorage, loadFromLocalStorage } from "../LocalStorage";
 import StyledInput from "../Components/StyledInput";
+import StyledLi from "../Components/StyledLi";
+import StyledUl from "../Components/StyleUl";
 
 export default function English() {
   const [inputValue, setInputValue] = useState("");
@@ -14,23 +16,20 @@ export default function English() {
   return (
     <div className="EnWrap">
       <h2 className="title">Shopping List</h2>
-      <ul className="ItemsUl">
+      <StyledUl>
         {items.map((item) => {
           return (
-            <>
-              <li
-                onClick={() => {
-                  setItems(items.filter((Item) => Item.id !== item.id));
-                }}
-                className="ItemsLi"
-                key={item.id}
-              >
-                {item.name}
-              </li>
-            </>
+            <StyledLi
+              onClick={() => {
+                setItems(items.filter((Item) => Item.id !== item.id));
+              }}
+              key={item.id}
+            >
+              {item.name}
+            </StyledLi>
           );
         })}
-      </ul>
+      </StyledUl>
       <h3 className="SecondaryTitle">What do you want to buy?</h3>
 
       <form
@@ -43,7 +42,8 @@ export default function English() {
       >
         <StyledInput
           required
-          type="text"
+          type="search"
+          placeholder="Type to search..."
           value={inputValue}
           onChange={(event) => {
             setInputValue(event.target.value);
