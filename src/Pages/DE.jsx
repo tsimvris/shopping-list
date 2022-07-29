@@ -27,7 +27,6 @@ export default function Deutsch() {
   useEffect(() => {
     getApi();
   }, []);
-  console.log(groceries);
   return (
     <div className="Wrap">
       <h2 className="title">Einkaufsliste</h2>
@@ -38,6 +37,7 @@ export default function Deutsch() {
             <StyledLi
               onClick={() => {
                 setItems(items.filter((Item) => Item.id !== item.id));
+                console.log(groceries);
               }}
               key={item.id}
             >
@@ -69,7 +69,7 @@ export default function Deutsch() {
       <div>
         <h3 className="title">Zuletzt Verwendet</h3>
         <hr />
-        <ul></ul>
+        <StyledUl></StyledUl>
       </div>
     </div>
   );
