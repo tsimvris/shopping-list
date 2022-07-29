@@ -5,12 +5,10 @@ import { saveToLocalStorage, loadFromLocalStorage } from "../LocalStorage";
 import StyledInput from "../Components/StyledInput";
 import StyledLi from "../Components/StyledLi";
 import StyledUl from "../Components/StyleUl";
-
 export default function Deutsch() {
   const [inputValue, setInputValue] = useState("");
   const [items, setItems] = useState(loadFromLocalStorage("My Items") ?? []);
   const [groceries, setGroceries] = useState();
-  const { search } = require("fast-fuzzy");
 
   useEffect(() => {
     saveToLocalStorage("My Items", items);
@@ -29,6 +27,7 @@ export default function Deutsch() {
   useEffect(() => {
     getApi();
   }, []);
+  console.log(groceries);
   return (
     <div className="Wrap">
       <h2 className="title">Einkaufsliste</h2>
@@ -64,22 +63,14 @@ export default function Deutsch() {
           value={inputValue}
           onChange={(event) => {
             setInputValue(event.target.value);
-            search({ inputValue }, [{ groceries }], {
-              keySelector: (groceries) => groceries.name.de,
-            });
           }}
         />
-        <div für Search></div>
       </form>
-      <h3 className="title">Zuletzt Verwendet</h3>
-      <StyledUl>
-        {groceries &&
-          groceries.map((item) => (
-            <StyledLi key={item._id} onClick={console.log(item.name.de)}>
-              {item.name.de}
-            </StyledLi>
-          ))}
-      </StyledUl>
+      <div>
+        <h3 className="title">Zuletzt Verwendet</h3>
+        <hr />
+        <ul></ul>
+      </div>
     </div>
   );
 }
