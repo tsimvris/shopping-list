@@ -3,8 +3,6 @@ import styled from "styled-components";
 import Deutsch from "./Pages/DE";
 import English from "./Pages/EN";
 import { Route, Routes, NavLink } from "react-router-dom";
-
-console.clear();
 export default function App() {
   return (
     <div className="App">

@@ -7,30 +7,51 @@ import StyledInput from "../Components/StyledInput";
 import StyledLi from "../Components/StyledLi";
 import StyledUl from "../Components/StyleUl";
 
-export default function Todo() {
+export default function Deutsch() {
   const [inputValue, setInputValue] = useState("");
   const [items, setItems] = useState(loadFromLocalStorage("My Items") ?? []);
+  const [groceries, setGroceries] = useState();
 
   useEffect(() => {
     saveToLocalStorage("My Items", items);
   });
+  const getApiData = async () => {
+    const response = await fetch(
+      "https://fetch-me.vercel.app/api/shopping/items"
+    )
+      .then((response) => response.json())
+      .then((response) => setGroceries(response.data));
 
+    // update the state
+  };
+  useEffect(() => {
+    getApiData();
+  }, []);
   return (
     <div className="Wrap">
       <h2 className="title">Einkaufsliste</h2>
+      <div className="app">
+        {groceries &&
+          groceries.map((item) => (
+            <div className="item-container">
+              Id:{item._id}{" "}
+              <div className="title">
+                {item.name.de} and {item.name.en}
+              </div>
+            </div>
+          ))}
+      </div>
       <StyledUl>
         {items.map((item) => {
           return (
-            <>
-              <StyledLi
-                onClick={() => {
-                  setItems(items.filter((Item) => Item.id !== item.id));
-                }}
-                key={item.id}
-              >
-                {item.name}
-              </StyledLi>
-            </>
+            <StyledLi
+              onClick={() => {
+                setItems(items.filter((Item) => Item.id !== item.id));
+              }}
+              key={item.id}
+            >
+              {item.name}
+            </StyledLi>
           );
         })}
       </StyledUl>
