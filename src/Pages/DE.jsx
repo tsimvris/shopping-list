@@ -10,19 +10,22 @@ export default function Deutsch() {
   const [inputValue, setInputValue] = useState("");
   const [items, setItems] = useState(loadFromLocalStorage("My Items") ?? []);
   const [groceries, setGroceries] = useState();
-  //const { search } = require("fast-fuzzy");
+  const { search } = require("fast-fuzzy");
 
   useEffect(() => {
     saveToLocalStorage("My Items", items);
   });
   async function getApi() {
-    const response = await fetch(
-      "https://fetch-me.vercel.app/api/shopping/items"
-    )
-      .then((response) => response.json())
-      .then((response) => setGroceries(response.data));
+    try {
+      const response = await fetch(
+        "https://fetch-me.vercel.app/api/shopping/items"
+      );
+      const dataResponse = await response.json();
+      setGroceries(dataResponse.data);
+    } catch (error) {
+      console.error(error.message);
+    }
   }
-
   useEffect(() => {
     getApi();
   }, []);
@@ -61,10 +64,9 @@ export default function Deutsch() {
           value={inputValue}
           onChange={(event) => {
             setInputValue(event.target.value);
-
-            /* search({ inputValue }, [{ groceries }], {
+            search({ inputValue }, [{ groceries }], {
               keySelector: (groceries) => groceries.name.de,
-            });*/
+            });
           }}
         />
         <div für Search></div>

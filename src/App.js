@@ -2,6 +2,7 @@ import "./App.css";
 import styled from "styled-components";
 import Deutsch from "./Pages/DE";
 import English from "./Pages/EN";
+
 import { Route, Routes, NavLink } from "react-router-dom";
 export default function App() {
   return (

@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { nanoid } from "nanoid";
 import "./pageStyle.css";
-
 import { saveToLocalStorage, loadFromLocalStorage } from "../LocalStorage";
 import StyledInput from "../Components/StyledInput";
 import StyledLi from "../Components/StyledLi";
@@ -15,17 +14,20 @@ export default function English() {
   useEffect(() => {
     saveToLocalStorage("My Items", items);
   });
-  const getApiData = async () => {
-    const response = await fetch(
-      "https://fetch-me.vercel.app/api/shopping/items"
-    )
-      .then((response) => response.json())
-      .then((response) => setGroceries(response.data));
 
-    // update the state
-  };
+  async function getApi() {
+    try {
+      const response = await fetch(
+        "https://fetch-me.vercel.app/api/shopping/items"
+      );
+      const dataResponse = await response.json();
+      setGroceries(dataResponse.data);
+    } catch (error) {
+      console.error(error.message);
+    }
+  }
   useEffect(() => {
-    getApiData();
+    getApi();
   }, []);
   return (
     <div className="Wrap">
