@@ -70,7 +70,11 @@ export default function English() {
       <div>
         <h3 className="title">Recently used</h3>
         <hr />
-        <StyledUl></StyledUl>
+        <StyledUl>
+          {groceries?.map((grocery) => {
+            return <StyledLi key={grocery._id}>{grocery.name.en}</StyledLi>;
+          })}
+        </StyledUl>
       </div>
     </div>
   );
