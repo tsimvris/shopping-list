@@ -30,17 +30,14 @@ export default function Deutsch() {
   return (
     <div className="Wrap">
       <h2 className="title">Einkaufsliste</h2>
-      <div className="app">
+      <ul>
         {groceries &&
           groceries.map((item) => (
-            <div className="item-container">
-              Id:{item._id}{" "}
-              <div className="title">
-                {item.name.de} and {item.name.en}
-              </div>
-            </div>
+            <li className="item-container">
+              {item.name.de}with Id:{item._id}
+            </li>
           ))}
-      </div>
+      </ul>
       <StyledUl>
         {items.map((item) => {
           return (
