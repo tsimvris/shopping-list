@@ -14,12 +14,12 @@ export default function Deutsch() {
   useEffect(() => {
     saveToLocalStorage("My Items", items);
   });
-  let fuzzyResult = [];
   function fuzzy(inputValue) {
-    fuzzyResult = search(inputValue, groceries, {
+    let fuzzyResult = search(inputValue, groceries, {
       keySelector: (obj) => obj.name.de,
     });
     console.log(fuzzyResult);
+
     return fuzzyResult;
   }
 
@@ -75,13 +75,11 @@ export default function Deutsch() {
             fuzzy(inputValue);
           }}
         />
-        <ul>
-          {fuzzyResult.map((res) => {
-            return <li>{res.name.de}</li>;
-          })}
-        </ul>
       </form>
-
+      <div className="fuzzyRes">
+        <h4 className="title">Vorschläge</h4>
+        <StyledUl></StyledUl>
+      </div>
       <h3 className="title">Zuletzt Verwendet</h3>
       <StyledUl>
         {groceries?.map((grocery) => {

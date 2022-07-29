@@ -11,14 +11,14 @@ export default function English() {
   const [inputValue, setInputValue] = useState("");
   const [items, setItems] = useState(loadFromLocalStorage("My Items") ?? []);
   const [groceries, setGroceries] = useState();
-  let fuzzyResult = [];
+
   function fuzzy(inputValue) {
-    fuzzyResult = search(inputValue, groceries, {
+    let fuzzyResult = search(inputValue, groceries, {
       keySelector: (obj) => obj.name.en,
     });
-    console.log(fuzzyResult);
     return fuzzyResult;
   }
+
   useEffect(() => {
     saveToLocalStorage("My Items", items);
   });
@@ -79,9 +79,7 @@ export default function English() {
       </form>
       <div className="fuzzyRes">
         <h4 className="title">Proposals</h4>
-        <StyledUl>
-          <StyledLi></StyledLi>
-        </StyledUl>
+        <StyledUl></StyledUl>
       </div>
       <div>
         <h3 className="title">Recently used</h3>
