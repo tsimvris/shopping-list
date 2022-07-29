@@ -45,11 +45,6 @@ export default function Todo() {
           required
           type="text"
           value={inputValue}
-          onSubmit={(event) => {
-            event.preventDefault();
-            setItems([...items, { name: inputValue, id: nanoid() }]);
-            setInputValue("");
-          }}
           onChange={(event) => {
             setInputValue(event.target.value);
           }}

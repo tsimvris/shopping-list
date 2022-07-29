@@ -12,7 +12,7 @@ export default function English() {
   });
 
   return (
-    <div className="DeWrap">
+    <div className="EnWrap">
       <h2 className="title">Shopping List</h2>
       <ul className="ItemsUl">
         {items.map((item) => {
@@ -45,11 +45,6 @@ export default function English() {
           required
           type="text"
           value={inputValue}
-          onSubmit={(event) => {
-            event.preventDefault();
-            setItems([...items, { name: inputValue, id: nanoid() }]);
-            setInputValue("");
-          }}
           onChange={(event) => {
             setInputValue(event.target.value);
           }}
