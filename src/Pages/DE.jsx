@@ -6,6 +6,7 @@ import StyledInput from "../Components/StyledInput";
 import StyledLi from "../Components/StyledLi";
 import StyledUl from "../Components/StyleUl";
 import { search } from "fast-fuzzy";
+
 export default function Deutsch() {
   const [inputValue, setInputValue] = useState("");
   const [items, setItems] = useState(loadFromLocalStorage("My Items") ?? []);
@@ -22,7 +23,6 @@ export default function Deutsch() {
 
     return fuzzyResult;
   }
-
   async function getApi() {
     try {
       const response = await fetch(
@@ -40,7 +40,6 @@ export default function Deutsch() {
   return (
     <div className="Wrap">
       <h2 className="title">Einkaufsliste</h2>
-
       <StyledUl>
         {items.map((item) => {
           return (
