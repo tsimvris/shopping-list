@@ -14,10 +14,13 @@ export default function Deutsch() {
   const [items, setItems] = useState(loadFromLocalStorage("My Items") ?? []);
   const [groceries, setGroceries] = useState();
   const [fuzzyResult, setFuzzyResults] = useState();
+  const [recently, setRecently] = useState(
+    loadFromLocalStorage("My Recently") ?? []
+  );
   useEffect(() => {
     saveToLocalStorage("My Items", items);
+    saveToLocalStorage("My Recently", recently);
   });
-
   function fuzzy(inputValue) {
     setFuzzyResults(
       search(inputValue, groceries, {
@@ -50,6 +53,7 @@ export default function Deutsch() {
             <StyledLi
               onClick={() => {
                 setItems(items.filter((Item) => Item.id !== item.id));
+                setRecently([...recently, { name: item.name, id: item.id }]);
               }}
               key={item.id}
             >
@@ -99,6 +103,12 @@ export default function Deutsch() {
         </StyledUl>
       </div>
       <RecentlyUsed />
+      <hr style={{ width: "100%" }} />
+      <StyledUl>
+        {recently?.map((item) => {
+          return <StyledSug key={item.id}>{item.name}</StyledSug>;
+        })}
+      </StyledUl>
     </div>
   );
 }
