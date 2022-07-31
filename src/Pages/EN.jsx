@@ -5,11 +5,19 @@ import { saveToLocalStorage, loadFromLocalStorage } from "../LocalStorage";
 import StyledInput from "../Components/StyledInput";
 import StyledLi from "../Components/StyledLi";
 import StyledUl from "../Components/StyleUl";
+import { search } from "fast-fuzzy";
 
 export default function English() {
   const [inputValue, setInputValue] = useState("");
   const [items, setItems] = useState(loadFromLocalStorage("My Items") ?? []);
   const [groceries, setGroceries] = useState();
+
+  function fuzzy(inputValue) {
+    let fuzzyResult = search(inputValue, groceries, {
+      keySelector: (obj) => obj.name.en,
+    });
+    return fuzzyResult;
+  }
 
   useEffect(() => {
     saveToLocalStorage("My Items", items);
@@ -65,14 +73,13 @@ export default function English() {
           value={inputValue}
           onChange={(event) => {
             setInputValue(event.target.value);
+            fuzzy(inputValue);
           }}
         />
       </form>
       <div className="fuzzyRes">
         <h4 className="title">Proposals</h4>
-        <StyledUl>
-          <StyledLi></StyledLi>
-        </StyledUl>
+        <StyledUl></StyledUl>
       </div>
       <div>
         <h3 className="title">Recently used</h3>
