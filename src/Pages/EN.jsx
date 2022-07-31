@@ -5,23 +5,32 @@ import { saveToLocalStorage, loadFromLocalStorage } from "../LocalStorage";
 import StyledInput from "../Components/StyledInput";
 import StyledLi from "../Components/StyledLi";
 import StyledUl from "../Components/StyleUl";
+import RecentlyUsed from "../Components/RecentlyUsed";
+import StyledSug from "../Components/StyledSuggestion";
 import { search } from "fast-fuzzy";
 
 export default function English() {
   const [inputValue, setInputValue] = useState("");
   const [items, setItems] = useState(loadFromLocalStorage("My Items") ?? []);
   const [groceries, setGroceries] = useState();
-
-  function fuzzy(inputValue) {
-    let fuzzyResult = search(inputValue, groceries, {
-      keySelector: (obj) => obj.name.en,
-    });
-    return fuzzyResult;
-  }
+  const [fuzzyResult, setFuzzyResults] = useState();
+  const [recently, setRecently] = useState(
+    loadFromLocalStorage("My Recently") ?? []
+  );
 
   useEffect(() => {
     saveToLocalStorage("My Items", items);
+    saveToLocalStorage("My Recently", recently);
   });
+  function fuzzy(inputValue) {
+    setFuzzyResults(
+      search(inputValue, groceries, {
+        keySelector: (obj) => obj.name.en,
+      })
+    );
+    return fuzzyResult;
+  }
+
   async function getApi() {
     try {
       const response = await fetch(
@@ -37,7 +46,20 @@ export default function English() {
   useEffect(() => {
     getApi();
   }, []);
-
+  /*function setToRecently(name, recName, id) {
+    if (name !== recName) {
+      setRecently([...recently, { name: name, id: id }]);
+    } else {
+      alert("The product is already in Recently :-)");
+    }
+  }
+  function goShopping(proposalID, itemID, name) {
+    if (itemID === proposalID) {
+      alert("Already in Shopping List");
+    } else {
+      setItems([...items, { name: name, id: itemID }]);
+    }
+  }*/
   return (
     <div className="Wrap">
       <h2 className="title">Shopping List</h2>
@@ -48,6 +70,7 @@ export default function English() {
             <StyledLi
               onClick={() => {
                 setItems(items.filter((Item) => Item.id !== item.id));
+                setRecently([...recently, { name: item.name, id: item.id }]);
               }}
               key={item.id}
             >
@@ -79,24 +102,30 @@ export default function English() {
       </form>
       <div className="fuzzyRes">
         <h4 className="title">Proposals</h4>
-        <StyledUl></StyledUl>
-      </div>
-      <div>
-        <h3 className="title">Recently used</h3>
-        <hr />
         <StyledUl>
-          {groceries?.map((grocery) => {
+          {fuzzyResult?.map((result) => {
             return (
-              <StyledLi
-                key={grocery._id}
+              <StyledSug
+                key={result._id}
                 onClick={() => {
-                  console.log("alive");
-                  setItems([...items, { name: grocery.name.en, id: nanoid() }]);
+                  setItems([
+                    ...items,
+                    { name: result.name.en, id: result._id },
+                  ]);
                 }}
               >
-                {grocery.name.en}
-              </StyledLi>
+                {result.name.en}
+              </StyledSug>
             );
+          })}
+        </StyledUl>
+      </div>
+      <div>
+        <RecentlyUsed />
+        <hr style={{ width: "100%" }} />
+        <StyledUl>
+          {recently?.map((item) => {
+            return <StyledSug key={item.id}>{item.name}</StyledSug>;
           })}
         </StyledUl>
       </div>
