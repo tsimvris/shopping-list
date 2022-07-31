@@ -5,24 +5,28 @@ import { saveToLocalStorage, loadFromLocalStorage } from "../LocalStorage";
 import StyledInput from "../Components/StyledInput";
 import StyledLi from "../Components/StyledLi";
 import StyledUl from "../Components/StyleUl";
+import RecentlyUsed from "../Components/RecentlyUsed";
+import StyledSug from "../Components/StyledSuggestion";
 import { search } from "fast-fuzzy";
 
 export default function Deutsch() {
   const [inputValue, setInputValue] = useState("");
   const [items, setItems] = useState(loadFromLocalStorage("My Items") ?? []);
   const [groceries, setGroceries] = useState();
-
+  const [fuzzyResult, setFuzzyResults] = useState();
   useEffect(() => {
     saveToLocalStorage("My Items", items);
   });
-  function fuzzy(inputValue) {
-    let fuzzyResult = search(inputValue, groceries, {
-      keySelector: (obj) => obj.name.de,
-    });
-    console.log(fuzzyResult);
 
+  function fuzzy(inputValue) {
+    setFuzzyResults(
+      search(inputValue, groceries, {
+        keySelector: (obj) => obj.name.de,
+      })
+    );
     return fuzzyResult;
   }
+
   async function getApi() {
     try {
       const response = await fetch(
@@ -55,7 +59,6 @@ export default function Deutsch() {
         })}
       </StyledUl>
       <h3 className="title">Was willst du einkaufen?</h3>
-
       <form
         className="form"
         onSubmit={(event) => {
@@ -77,24 +80,25 @@ export default function Deutsch() {
       </form>
       <div className="fuzzyRes">
         <h4 className="title">Vorschläge</h4>
-        <StyledUl></StyledUl>
+        <StyledUl>
+          {fuzzyResult?.map((result) => {
+            return (
+              <StyledSug
+                key={result._id}
+                onClick={() => {
+                  setItems([
+                    ...items,
+                    { name: result.name.de, id: result._id },
+                  ]);
+                }}
+              >
+                {result.name.de}
+              </StyledSug>
+            );
+          })}
+        </StyledUl>
       </div>
-      <h3 className="title">Zuletzt Verwendet</h3>
-      <StyledUl>
-        {groceries?.map((grocery) => {
-          return (
-            <StyledLi
-              key={grocery._id}
-              onClick={() => {
-                console.log("alive");
-                setItems([...items, { name: grocery.name.de, id: nanoid() }]);
-              }}
-            >
-              {grocery.name.de}
-            </StyledLi>
-          );
-        })}
-      </StyledUl>
+      <RecentlyUsed />
     </div>
   );
 }
